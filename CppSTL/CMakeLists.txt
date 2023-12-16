@@ -1,0 +1,5 @@
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/CppSTL)
+add_executable(demo11_core demo11_thread.cpp)
+add_executable(demo14_core demo14_yaml.cpp)
+target_link_libraries(demo14_core ${OpenCV_LIBS})
+add_executable(demo15_core demo15_container.cpp)

@@ -1,0 +1,12 @@
+保存：                             Ctrl+s
+格式化：                         Ctrl+Shitf+I
+向上/向下 复制行：   Ctrl + Shift + Alt + Up/Down
+移动行：                         alt+up/down
+单行注释/取消注释： ctrl+/
+多行注释：                     alt+shift+A
+撤销上一步：                 ctrl+z
+删除行 ：                         ctrl + shift + k
+搜索代码：                      ctrl+f
+折叠代码：                      ctrl+k 再 ctrl+0（零）
+另外 折叠到某一级的函数是 Ctrl + K， Ctrl + n 例如，我想折叠到第二级的函数，就输入Ctrl + K， Ctrl + 2 即可
+展开所有代码：              ctrl+k 再 ctrl+j

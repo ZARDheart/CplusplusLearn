@@ -1,0 +1,60 @@
+%YAML:1.0
+#配置文件
+#键值对
+age1 : 12
+name1 : huang
+#等价于Json表示：{'age':12,'name':'huang'}
+
+#数组/列表
+[a,b,12]
+#或
+-a
+-b
+-12
+#等价于Json表示 ：['a','b',12]
+
+#键-键值
+websites:
+ YAML: yaml.org 
+ Ruby: ruby-lang.org 
+ Python: python.org 
+ Perl: use.perl.org
+ 
+ #键-列表值
+languages:
+ - Ruby
+ - Perl
+ - Python 
+ - c
+ 
+ #列表-列表
+ -
+  - Ruby
+  - Perl
+  - Python 
+- 
+  - c
+  - c++
+  - java
+  #或
+- [Ruby,Perl,Python]
+- [c,c++,java]
+
+#列表-键值对
+-
+  id: 1
+  name: huang
+-
+  id: 2
+  name: liao
+  
+#examples
+name2: frank
+sex: male
+age2: 18
+
+skills: 
+  c++: 1
+  java: 1
+  android: 1
+  python: 1
