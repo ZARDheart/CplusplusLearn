@@ -19,6 +19,16 @@ using namespace std;
 // 解决方式2，将声明和实现写到一起，文件后缀名改为.hpp
 #include "demo12_head.hpp"
 
+// 5 全局函数配合友元  类外实现 - 先做函数模板声明，下方在做函数模板定义，在做友元
+template <class T1, class T2>
+class Person;
+// 5.1 全局友元函数模板
+template <class T1, class T2>
+void friendPerson2(Person<T1, T2> &p)
+{
+	cout << "类外实现 ---- 姓名： " << p.mName << " 年龄：" << p.mAge << endl;
+}
+
 // 1 类模板 模板参数列表可以指定默认参数
 template <class NameType, class AgeType = int>
 class Person
@@ -36,6 +46,14 @@ public:
 	}
 	// 成员函数类内声明
 	void showPerson();
+
+	// 5.2 全局函数配合友元   类内实现
+	friend void friendPerson1(Person<NameType, AgeType> &p)
+	{
+		cout << "姓名： " << p.mName << " 年龄：" << p.mAge << endl;
+	}
+	// 全局函数配合友元  类外实现 因为上面是一个模板函数，这里是一个普通函数引起冲突，要统一，因此加一个空模板<>
+	friend void friendPerson2<>(Person<NameType, AgeType> &p);
 
 public:
 	NameType mName;
@@ -130,27 +148,35 @@ int main()
 	P1.showPerson();
 	Person<string, double> P2("ZARD", 55.9);
 	P2.showPerson();
-
-	// 2 类模板中的模板参数列表 可以指定默认参数
+	// 类模板中的模板参数列表 可以指定默认参数
 	Person<string> p3("猪八戒", 999);
 	p3.showPerson();
 
-	// 3 类模板中的成员函数是在模板调用时再生成
+	// 2 类模板中的成员函数是在模板调用时再生成
 	MyClass<Person1> m;
 	// 在调用fun1()时已经确认obj为showPerson1
 	m.fun1();
 	// m.fun2();//编译会出错，showPerson1没有此成员函数
 
-	// 4 类模板对象做函数参数向函数传参的方式
+	// 3 类模板对象做函数参数向函数传参的方式
 	printPerson1(P1);
 	printPerson2(P2);
 	printPerson3(P1);
 
-	// 5 类模板碰到继承时
+	// 4 类模板碰到继承时
 	cout << endl;
 	Son1 s1;
 	s1.showPerson();
 	Son2<char, string, int> child1;
+
+	// 5 建议全局友元函数做类内实现，用法简单，而且编译器可以直接识别
+	Person<string, int> p4("Tom", 20);
+	friendPerson1(p4);
+	Person<string, int> p5("Jerry", 30);
+	friendPerson2(p5);
+
+	test01();
+	test02();
 
 	return 0;
 }
