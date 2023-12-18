@@ -175,6 +175,7 @@ int main()
 	Person<string, int> p5("Jerry", 30);
 	friendPerson2(p5);
 
+	// 6 测试案例
 	test01();
 	test02();
 
