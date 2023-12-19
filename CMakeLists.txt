@@ -11,6 +11,8 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 add_subdirectory(CppBase)
 add_subdirectory(CppCore)
 add_subdirectory(CppSTL)
+add_subdirectory(CppExtend)
+
 # add_subdirectory(G2OAndCeres)
 add_subdirectory(Eigen)
 add_subdirectory(gtsam_examples)
