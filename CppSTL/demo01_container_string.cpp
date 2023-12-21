@@ -1,179 +1,187 @@
 #include <iostream>
-#include <cstring>
-#include <vector>
-#include <array>
-#include <map>
-#include <list>
+#include <string>
 using namespace std;
 
-void printdoublearray(vector<double> v,int n); // 打印vector
-struct Info { 
-    string name; 
-    int num; 
-    Info(){}
-    Info(string name, int num):name(name),num(num){}
-}; 
+/*
+string本质：string是C++风格的字符串，而string本质上是一个类
+string和char * 区别：
+    char * 是一个指针
+    string是一个类，类内部封装了char*，管理这个字符串，是一个char*型的容器。
+特点：string 类内部封装了很多成员方法
+    例如：查找find，拷贝copy，删除delete 替换replace，插入insert
+string管理char*所分配的内存，不用担心复制越界和取值越界等，由类内部进行负责
+
+3.1.2 string构造函数
+string(); //创建一个空的字符串 例如: string str;
+string(const char* s); //使用字符串s初始化
+string(const string& str); //使用一个string对象初始化另一个string对象
+string(int n, char c); //使用n个字符c初始化
+*/
 
 int main()
 {
-    //vector
-    /* 
-     * 可以把它看成一个一维数组，只是这个数组中可以存储任何元素，比如用户创建的类
-    empty()://判断当前向量容器是否为空
-    size()://返回当前向量容器中的实际元素个数
-    []://返回指定下标的元素
-    reserve(int n)://为当前向量容器预分配n个元素的存储空间
-    capacity()://返回当前向量容器在重新进行内存分配以前所能容纳的元素个数
-    resize(int n)://调整当前向量容器的大小,使其能容纳n个元素
-    resize(int n,elem); //若容器变长，则以elem填充新位置
-    assign(v.begin(),v.end()); //将[v.begin(),v.end()]区间中的元素赋值给本身
-    assign(int n,elem); //将n个elem赋值给本身
-    push_back(item)://在当前向量容器尾部添加一个元素
-    insert(iterator pos,elem)://将元素elem插入到迭代器pos指定的元素之前
-    insert(iterator pos,int n,elem)://将元素n个elem插入到迭代器pos指定的元素之前
-    front()://获取当前向量容器的第一个元素
-    back()://获取当前向量容器的最后一个元素
-    swap(v); //容器v和当前容器互换
-    erase(const_iterator pos); //删除迭代器指向的元素
-    erase(const_iterator begin,const_iterator end); //删除迭代器从begin到end之间的元素clear()://删除当前向量容器中的所有元素
-    begin()://该函数的两个版本分别返回iterator或者const_iterator,容器的第一个元素
-    end()://两个版本分别返回iterator或者const_iterator,引用容器的最后一个元素后面的一个位置
-    rbegin()://两个版本分别返回reverse_iterator或者const_reverse_iterator,引用容器的最后一个元素
-    rend()://两个版本分别返回reverse_iterator或者const_reverse_iterator,引用容器的第一个元素前面的第一个位置 */
-    double arr2[]={0.1,0.2,0.3,4.5};
-    vector<int> vd(3);
-    vd[2]=15;
-    vector<double> vd1(10,2);                   //全部元素为2的向量
-    vector<int> vd2(vd);                        //复制vd
-    vector<int> vd3(vd1.begin(),vd1.begin()+3); //切片定义
-    vector<double> vd4(arr2,arr2+4);            //使用数组切片
-    //vector对象的操作
-    cout <<"vector："<<endl<< vd[2] << "  "<< vd1[2]<< "  "<< vd2[2]<< "  "<< vd3[2]<< endl;
-    printdoublearray(vd4,vd4.size());           //size元素个数
-    vd1.assign(vd4.begin(),vd4.begin()+3);      //将vd4的0-2元素构成的向量赋给vd1
-    cout<<vd1[1]<< "  "<< vd1.back()<< "  "<< vd1.front()<<endl; //返回尾首元素
-    vd1.push_back(5.0);                         //末尾插入元素5.0
-    printdoublearray(vd1,vd1.size());
-    vd1.pop_back();                             //删除末尾元素
-    printdoublearray(vd1,vd1.size());
-    vd4.clear();                                //清空元素
-    cout<<vd4.empty()<<endl;                    //判断是否为空，空则返回ture,不空则返回false
-    vd1.insert(vd1.begin()+1,2.0);              //在第1个元素（从第0个算起）的位置插入数值2.0，如为1,2,3,4，插入元素后为1,2.0,2,3,4
-    vd1.insert(vd1.begin()+1,3,5.0);            //在a的第1个元素（从第0个算起）的位置插入3个数，其值都为5.0
-    printdoublearray(vd1,vd1.size());
-    vd1.resize(10);                    //将现有元素个数调至10个，多则删，少则补，其值随机
-    vd4.swap(vd1);                     //将两向量中的元素进行整体性交换
-    printdoublearray(vd1,vd1.size());
-    printdoublearray(vd4,vd4.size());
-    vector<double> vn=vector<double> (5,0.123);// 创建长度为5的全为0.123的vector
-    printdoublearray(vn,vn.size());
-    
-    //array
-    array<double,4> a1={3.14,5.2,6.9594,1.234556789};
-    array<double,4> a2;
-    a2=a1;                         //array对象可复制，而数组只能复制元素
-    cout<<a1[3]<<"  "<<a2[3]<<endl;
-    
-    //map
-    /* 
-     * Map是STL的一个关联容器，它提供一对一（其中第一个可以称为关键字，每个关键字只能在map中出现一次，第二个可能称为该关键字的值，key和value可以是任意你需要的类型）的数据处理能力，由于这个特性，它完成有可能在我们处理一对一数据的时候，在编程上提供快速通道。
-    map对象是模板类，需要关键字和存储对象两个模板参数：
-    std:map<Anytype,Anytype> personnel;
-    使用迭代器访问时，iter->first指向元素的键，iter->second指向键对应的值。 使用下标访问map容器与使用下标访问vector的行为截然不同：用下标访问map中不存在的元素将导致在map容器中添加一个新的元素，这个元素的键即为该下标值，键所对应的值为空。
-    begin() 返回指向 map 头部的迭代器
-    clear(） 删除所有元素
-    count() 返回指定元素出现的次数
-    empty() 如果 map 为空则返回 true
-    end() 返回指向 map 末尾的迭代器
-    erase() 删除一个元素
-    find() 查找一个元素
-    insert() 插入元素
-    key_comp() 返回比较元素 key 的函数
-    lower_bound() 返回键值>=给定元素的第一个位置
-    max_size() 返回可以容纳的最大元素个数
-    rbegin() 返回一个指向 map 尾部的逆向迭代器
-    rend() 返回一个指向 map 头部的逆向迭代器
-    size() 返回 map 中元素的个数
-    swap() 交换两个 map
-    upper_bound() 返回键值>给定元素的第一个位置
-    value_comp() 返回比较元素 value 的函数*/
-    map<Info*,int> stus;
-    for(int i=1;i<=5;i++)
-    {
-        Info *stu;
-        stu = new Info("stu",5);
-        printf("%p\n",stu);
-        stu->name="stu"+to_string(i);
-        stu->num=220+i;
-        int score=90+i;
-        stus[stu]=score;
-        //stus.insert(pair<Info*,int>(&stu,score));
-    }
-    map<Info*,int>::iterator it;
-    for(it=stus.begin();it!=stus.end();it++)
-    {
-        Info *stu=it->first;
-        int score=it->second;
-        cout<<(*stu).name<<" "<<(*stu).num<<" "<<score<<endl;
-    }
-    
-    //list
-    /* list() 声明一个空列表；
-    list(n) 声明一个有n个元素的列表，每个元素都是由其默认构造函数T()构造出来的
-    list(n,val) 声明一个由n个元素的列表，每个元素都是由其复制构造函数T(val)得来的
-    list(n,val) 声明一个和上面一样的列表
-    list(first,last) 声明一个列表，其元素的初始值来源于由区间所指定的序列中的元素
-    begin()和end()：通过调用list容器的成员函数begin()得到一个指向容器起始位置的iterator，可以调用list容器的 end() 函数来得到list末端下一位置
-    push_back() 和push_front()：使用list的成员函数push_back和push_front插入一个元素到list中。其中push_back()从list的末端插入，而 push_front()实现的从list的头部插入。
-    empty()：利用empty() 判断list是否为空。
-    resize()：如果调用resize(n)将list的长度改为只容纳n个元素，超出的元素将被删除，如果需要扩展那么调用默认构造函数T()将元素加到list末端。如果调用resize(n,val)，则扩展元素要调用构造函数T(val)函数进行元素构造，其余部分相同。
-    clear()：清空list中的所有元素。
-    front()和back()： 通过front()可以获得list容器中的头部元素，通过back()可以获得list容器的最后一个元素。
-    pop_back和pop_front()：通过删除最后一个元素，通过pop_front()删除第一个元素；序列必须不为空，如果当list为空的时候调用pop_back()和pop_front()会使程序崩掉。
-    assign()：具体和vector中的操作类似
-    swap()：交换两个链表(两个重载)，一个是l1.swap(l2); 另外一个是swap(l1,l2)
-    reverse()：通过reverse()完成list的逆置。
-    merge()：合并两个链表并使之默认升序(也可改)*/
-    list<int> list1;
-    for (int k=0;k<10;k++){
-        list1.push_back(k);
-    }
-    for (int k=0;k<10;k++){
-        list1.insert(list1.end(), k);
-    }
-    list<int>::iterator list_iter1;
-    for (list_iter1 = list1.begin();list_iter1 != list1.end();++list_iter1){
-        cout << *list_iter1 << " ";
-    }
-    cout << endl;
-    
-    //iterator 
-    vector<int> vi;
-    for(int i=0;i<=5;i++)
-        vi.push_back(i);
-    vector <int>:: iterator iter;
-    for(int i=0;i<=5;i++)
-        cout<<vi[i]<<" ";
-    cout<<endl;
-    for(iter=vi.begin();iter!=vi.end();iter++)
-        cout<<*iter<<" ";
-    cout<<endl;
+    // 1 string构造函数
+    // string(); //调用无参构造函数 创建一个空的字符串 例如: string str;
+    string s1;
+    cout << "str1 = " << s1 << endl;
 
-    return 0;
-    
-}
+    // string(const char* s); //使用字符串s初始化，c_string转换成了string
+    const char *str = "hello world";
+    string s2(str);
+    cout << "str2 = " << s2 << endl;
 
-void printdoublearray(vector<double> v,int n)
-{
-    if (n>0)
+    // string(const string& str); //调用拷贝构造函数，使用一个string对象初始化另一个string对象
+    string s3(s2);
+    cout << "str3 = " << s3 << endl;
+
+    // string(int n, char c); //使用n个字符c初始化
+    string s4(10, 'a');
+    cout << "str3 = " << s3 << endl;
+
+    // 2 赋值操作 赋值的函数原型：
+    //     string& operator=(const char* s); //char*类型字符串 赋值给当前的字符串
+    //     string& operator=(const string &s); //把字符串s赋给当前的字符串
+    //     string& operator=(char c); //字符赋值给当前的字符串
+    //     string& assign(const char *s); //把字符串s赋给当前的字符串
+    //     string& assign(const char *s, int n); //把字符串s的前n个字符赋给当前的字符串
+    //     string& assign(const string &s); //把字符串s赋给当前字符串
+    //     string& assign(int n, char c); //用n个字符c赋给当前字符串
+    string str1 = "hello world";
+    cout << "str1 = " << str1 << endl;
+    string str2 = str1;
+    cout << "str2 = " << str2 << endl;
+    string str3;
+    str3 = 'a';
+    cout << "str3 = " << str3 << endl;
+    string str4;
+    str4.assign("hello c++");
+    cout << "str4 = " << str4 << endl;
+    string str5;
+    str5.assign("hello c++", 5);
+    cout << "str5 = " << str5 << endl;
+    string str6;
+    str6.assign(str5);
+    cout << "str6 = " << str6 << endl;
+    string str7;
+    str7.assign(5, 'x');
+    cout << "str7 = " << str7 << endl;
+
+    // 3 string字符串拼接 函数原型：
+    //     string& operator+=(const char* str); //重载+=操作符
+    //     string& operator+=(const char c); //重载+=操作符
+    //     string& operator+=(const string& str); //重载+=操作符
+    //     string& append(const char *s); //把字符串s连接到当前字符串结尾
+    //     string& append(const char *s, int n); //把字符串s的前n个字符连接到当前字符串结尾
+    //     string& append(const string &s); //同operator+=(const string& str)
+    //     string& append(const string &s, int pos, int n);//字符串s中从pos开始的n个字符连接到字符串结尾
+    str1 = "我";
+    str1 += "爱玩游戏";
+    cout << "str1 = " << str1 << endl;
+    str1 += ':';
+    cout << "str1 = " << str1 << endl;
+    str2 = "Sky of Light";
+    str1 += str2;
+    cout << "str1 = " << str1 << endl;
+    str3 = "I";
+    str3.append(" love ");
+    str3.append("game Sky !", 8); // 前n个字符连接到当前字符串结尾
+    // str3.append(str2);
+    cout << "str3 = " << str3 << endl;
+    str3.append(str2, 3, 9); // 从下标3位置开始 ，截取9个字符，拼接到字符串末尾
+    cout << "str3 = " << str3 << endl;
+
+    // 4 string查找和替换
+    // 查找：查找指定字符串是否存在
+    //     int find(const string& str, int pos = 0) const; //查找str第一次出现位置,从pos开始查找
+    //     int find(const char* s, int pos = 0) const; //查找s第一次出现位置,从pos开始查找
+    //     int find(const char* s, int pos, int n) const; //从pos位置查找s的前n个字符第一次位置
+    //     int find(const char c, int pos = 0) const; //查找字符c第一次出现位置
+    //     int rfind(const string& str, int pos = npos) const; //查找str最后一次位置,从pos开始查找
+    //     int rfind(const char* s, int pos = npos) const; //查找s最后一次出现位置,从pos开始查找
+    //     int rfind(const char* s, int pos, int n) const; //从pos查找s的前n个字符最后一次位置
+    //     int rfind(const char c, int pos = 0) const; //查找字符c最后一次出现位置
+    str1 = "abcdefgde";
+    int pos = str1.find("de");
+    if (pos == -1)
     {
-        for(int i=0;i<n;i++)
-            cout<<v[i]<<"\t";
-        cout<<endl;
+        cout << "未找到" << endl;
     }
     else
     {
-        cout<<"Vector is empty!"<<endl;
+        cout << "pos = " << pos << endl;
     }
-}
+    pos = str1.rfind("de");
+    cout << "pos = " << pos << endl;
+    // 替换：在指定的位置替换字符串（指定的字符片段，整体替换成新的字符串）
+    //     string& replace(int pos, int n, const string& str); //替换从pos开始n个字符为字符串str
+    //     string& replace(int pos, int n,const char* s); //替换从pos开始的n个字符为字符串s
+    str1.replace(2, 2, "1111"); // 指定的字符片段(2，2):cd->1111，整体替换成新的字符串
+    cout << "str1 = " << str1 << endl;
 
+    // 5 string字符串比较:字符串比较是按字符的ASCII码进行对比
+    //     = 返回 0
+    //     > 返回 1
+    //     < 返回 -1
+    // 函数原型：
+    //     int compare(const string &s) const; //与字符串s比较
+    //     int compare(const char *s) const; //与字符串s比较
+    // 字符串对比主要是用于比较两个字符串是否相等，判断谁大谁小的意义并不是很大
+    s1 = "hello";
+    s2 = "aello";
+    int ret = s1.compare(s2);
+    if (ret == 0)
+    {
+        cout << "s1 等于 s2" << endl;
+    }
+    else if (ret > 0)
+    {
+        cout << "s1 大于 s2" << endl;
+    }
+    else
+    {
+        cout << "s1 小于 s2" << endl;
+    }
+
+    // 6 string字符存取.string中单个字符存取方式有两种
+    //     char& operator[](int n); //通过[]方式取字符
+    //     char& at(int n); //通过at方法获取字符
+    str1 = "hello world";
+    for (int i = 0; i < str1.size(); i++)
+    {
+        cout << str1[i] << " ";
+    }
+    cout << endl;
+    for (int i = 0; i < str1.size(); i++)
+    {
+        cout << str1.at(i) << " ";
+    }
+    cout << endl;
+    // 字符修改
+    str1[0] = 'x';
+    str1.at(1) = 'x';
+    cout << str1 << endl;
+
+    // 7 string插入和删除对string字符串进行插入和删除字符操作
+    // 函数原型：插入和删除的起始下标都是从0开始
+    //     string& insert(int pos, const char* s); //插入字符串
+    //     string& insert(int pos, const string& str); //插入字符串
+    //     string& insert(int pos, int n, char c); //在指定位置插入n个字符c
+    //     string& erase(int pos, int n = npos); //删除从Pos开始的n个字符
+    str1.insert(1, "111");
+    cout << str1 << endl;
+    str1.erase(1, 3); // 从1号位置开始3个字符
+    cout << str1 << endl;
+
+    // 8 string子串：从字符串中获取想要的子串
+    // 函数原型：
+    //     string substr(int pos = 0, int n = npos) const; //返回由pos开始的n个字符组成的字符串
+    str1 = "abcdefg";
+    string subStr = str1.substr(1, 3);
+    cout << "subStr = " << subStr << endl;
+    string email = "hello@sina.com";
+    pos = email.find("@");
+    string username = email.substr(0, pos);
+    cout << "username: " << username << endl;
+
+    return 0;
+}

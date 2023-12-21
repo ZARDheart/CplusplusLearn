@@ -8,6 +8,7 @@ template <class T1, class T2>
 class People
 {
 public:
+	People(){};
 	People(T1 name, T2 age);
 	void showPeople();
 
@@ -31,7 +32,7 @@ void People<T1, T2>::showPeople()
 	cout << "姓名: " << this->m_Name << " 年龄:" << this->m_Age << endl;
 }
 
-// 类模板实现一个通用的数组类，要求如下：
+// 类模板实现一个通用的数组类（低配版ector），要求如下：
 // 	可以对内置数据类型以及自定义数据类型的数据进行存储
 // 	将数组中的数据存储到堆区
 // 	构造函数中可以传入数组的容量
@@ -57,6 +58,8 @@ public:
 	{
 		this->m_Capacity = arr.m_Capacity;
 		this->m_Size = arr.m_Size;
+
+		// 重新开辟
 		this->pAddress = new T[this->m_Capacity];
 		for (int i = 0; i < this->m_Size; i++)
 		{
@@ -66,20 +69,21 @@ public:
 		}
 	}
 
-	// 重载= 操作符  防止浅拷贝问题
+	// 重载= 操作符  防止浅拷贝问题 a = b =c
 	MyArray &operator=(const MyArray &myarray)
 	{
-
+		// 先释放自己的堆区
 		if (this->pAddress != NULL)
 		{
 			delete[] this->pAddress;
 			this->m_Capacity = 0;
 			this->m_Size = 0;
 		}
-
+		// 重新开辟
 		this->m_Capacity = myarray.m_Capacity;
 		this->m_Size = myarray.m_Size;
 		this->pAddress = new T[this->m_Capacity];
+		// 数据copy过来
 		for (int i = 0; i < this->m_Size; i++)
 		{
 			this->pAddress[i] = myarray[i];
@@ -98,9 +102,11 @@ public:
 	{
 		if (this->m_Capacity == this->m_Size)
 		{
+			cout << "数组已满，无法插入！" << endl;
 			return;
 		}
 		this->pAddress[this->m_Size] = val;
+		// 更新数组大小
 		this->m_Size++;
 	}
 
@@ -111,6 +117,7 @@ public:
 		{
 			return;
 		}
+		// 相当于访问不到，并不改变堆区
 		this->m_Size--;
 	}
 
@@ -168,6 +175,7 @@ void test01()
 
 	cout << "--------------------------" << endl;
 
+	// 拷贝构造
 	MyArray<int> array2(array1);
 	array2.Pop_back();
 	cout << "array2打印输出：" << endl;
@@ -177,38 +185,23 @@ void test01()
 }
 
 // 测试自定义数据类型
-class myType
-{
-public:
-	myType() {}
-	myType(string name, int age)
-	{
-		this->m_Name = name;
-		this->m_Age = age;
-	}
-
-public:
-	string m_Name;
-	int m_Age;
-};
-
-void printmyTypeArr(MyArray<myType> &myTypeArr)
+void printmyTypeArr(MyArray<People<string, int>> &myTypeArr)
 {
 	for (int i = 0; i < myTypeArr.getSize(); i++)
 	{
-		cout << "姓名：" << myTypeArr[i].m_Name << " 年龄： " << myTypeArr[i].m_Age << endl;
+		myTypeArr[i].showPeople();
 	}
 }
 
 void test02()
 {
 	// 创建数组
-	MyArray<myType> pArray(10);
-	myType p1("孙悟空", 30);
-	myType p2("韩信", 20);
-	myType p3("妲己", 18);
-	myType p4("王昭君", 15);
-	myType p5("赵云", 24);
+	MyArray<People<string, int>> pArray(10);
+	People<string, int> p1("孙悟空", 30);
+	People<string, int> p2("韩信", 20);
+	People<string, int> p3("妲己", 18);
+	People<string, int> p4("王昭君", 15);
+	People<string, int> p5("赵云", 24);
 
 	// 插入数据
 	pArray.Push_back(p1);
@@ -217,7 +210,7 @@ void test02()
 	pArray.Push_back(p4);
 	pArray.Push_back(p5);
 	printmyTypeArr(pArray);
-	
+
 	cout << "pArray的大小：" << pArray.getSize() << endl;
 	cout << "pArray的容量：" << pArray.getCapacity() << endl;
 }
