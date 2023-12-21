@@ -3,6 +3,10 @@
 #使用2个CMakeLists.txt，最外层的CMakeLists.txt用于掌控全局
 cmake_minimum_required(VERSION 3.0)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -std=c++14")
+
+#PROJECT(projectname [CXX] [C] [Java])
+#你可以用这个指令定义工程名称，并可指定工程支持的语言，支持的语言列表是可以忽略的，默认情况表示支持所有语言，及可指定工程版本号
 project(CMake3 VERSION 1.0)
 
 #add_subdirectory()命令可以向当前工程添加存放源文件的子目录

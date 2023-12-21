@@ -48,6 +48,7 @@ MESSAGE("-- cmake build mode: " ${CMAKE_CXX_FLAGS})
 # set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 # add_executable(CMake ${SOURCES})
 # target_link_libraries(CMake ${hello_LIBS})
+# target_link_libraries(CMake ${CMake5_SOURCE_DIR}/install/lib/libhello.so)
 
 
 # Add subdirectory------------------------------------

@@ -9,7 +9,7 @@ find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 #使用set或file设置多个源文件（依赖）：
-#set(SOURCES src/main.cpp src/testFunc.cpp)
+#set(SOURCES src/main.cpp src/testFunc.cpp src/testFunc1.cpp)
 file(GLOB SOURCES "../src/*.cpp")
 
 MESSAGE(STATUS "This is SOURCE dir " ${CMake4_SOURCE_DIR})
@@ -27,7 +27,9 @@ add_executable(CMake4 ${SOURCES})
 #链接库文件
 target_link_libraries(CMake4 ${OpenCV_LIBS} )
 
+#重新定义:EXECUTABLE_OUTPUT_PATH 变量来指定最终的目标二进制的位置
 #最终输出的elf文件会放到bin目录下
 #EXECUTABLE_OUTPUT_PATH ：目标二进制可执行文件的存放位置
 #PROJECT_SOURCE_DIR：工程的根目录
-set (EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+#在哪里 ADD_EXECUTABLE，如果需要改变目标存放路径，就在哪里加入上述的定义。

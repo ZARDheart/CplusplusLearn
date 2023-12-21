@@ -21,7 +21,7 @@ MESSAGE("-- cmake version: " ${CMAKE_MAJOR_VERSION} "." ${CMAKE_MINOR_VERSION} "
 
 # PROJECT(projectname [CXX] [C] [Java])
 # 用这个指令定义工程名称，并可指定工程支持的语言，支持的语言列表是可以忽略的，默认情况表示支持所有语言，可指定工程版本号
-project(CMake6 VERSION 1.0)
+project(CMake5 VERSION 1.0)
 
 # 编译模式Debug：详细调试信息，Release：无调试信息
 SET(CMAKE_BUILD_TYPE Release)
@@ -38,5 +38,5 @@ MESSAGE("-- cmake build mode: " ${CMAKE_CXX_FLAGS})
 # 并可以指定中间二进制和目标二进制的存放位置
 # 这里指定src目录下存放了源文件，当执行cmake时
 # 就会进入src目录下去找src目录下建立的CMakeLists.txt
-add_subdirectory(src)
-add_subdirectory(Examples/src)
+add_subdirectory(src) # 生成动态库
+add_subdirectory(Examples/src) # 主函数链接动态库

@@ -27,7 +27,7 @@ include_directories(${G2O_INCLUDE_DIRS})
 find_package(Eigen3 REQUIRED)
 include_directories(${EIGEN3_INCLUDE_DIR})
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/G2OAndCeres)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/G2OAndCeres/bin)
 
 add_executable(gaussNewton gaussNewton.cpp)
 target_link_libraries(gaussNewton ${OpenCV_LIBS} ${EIGEN3_LIBS})

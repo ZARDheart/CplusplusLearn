@@ -2,7 +2,7 @@
 
 #包含入口的头文件目录和共享库的头文件目录：..代表上一级目录
 include_directories(../include 
-		../../include)
+		../../include) # 或者写绝对路径
 
 # 添加Eigen（只包含头文件的三方库）库文件
 include_directories("/usr/include/eigen3")
@@ -16,7 +16,7 @@ include_directories(${OpenCV_INCLUDE_DIRS})
 # file(GLOB SOURCES "../src/*.cpp")
 file(GLOB SOURCES "*.cpp")
 
-MESSAGE(STATUS "This is SOURCE dir " ${CMake6_SOURCE_DIR})
+MESSAGE(STATUS "This is SOURCE dir " ${CMake5_SOURCE_DIR})
 # MESSAGE([SEND_ERROR | STATUS | FATAL_ERROR] "message to display"...)
 # 这个指令用于向终端输出用户定义的信息，包含了三种类型:
 # SEND_ERROR,产生错误，生成过程被跳过
@@ -34,9 +34,14 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 # 目标执行文件-源码（使用变量SOURCE）：
 # 使用了${}来引用变量，这是 cmake 的变量应用方式，可生成多个子目标
-# 作为工程名的 CMake6 和生成的可执行文件 CMake6 是没有任何关系的
-add_executable(CMake6 ${SOURCES})
+# 作为工程名的 CMake5 和生成的可执行文件 CMake5 是没有任何关系的
+add_executable(CMake5 ${SOURCES})
 # 链接库文件,包括三方库和自己编译的动态库
-target_link_libraries(CMake6 
+# target_link_libraries(CMake5 
+# 	${OpenCV_LIBS} 
+#     hello )
+# 或者库文件的路径(一般可以写相对本cmakelist文件): /home/zard/CplusplusLearn/CMakeLearn/CMake6_add_library/install/lib/libhello.so
+# ${OpenCV_LIBS} 其实就是路径变量
+target_link_libraries(CMake5 
 	${OpenCV_LIBS} 
-        hello )
+    ${CMake5_SOURCE_DIR}/install/lib/libhello.so)

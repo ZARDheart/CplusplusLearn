@@ -26,17 +26,24 @@ set_target_properties(hello PROPERTIES VERSION 1.2 SOVERSION 1)
 # 上面有了同名的共享库，hello 作为一个 target 是不能重名的，因此
 add_library(hello_static STATIC ${LIBHELLO_SRC}) 
 target_link_libraries(hello_static ${Pangolin_LIBRARIES})
-# 但是我们需要的是名字相同的静态库和动态库,增加一句：
+# 但是我们需要的是名字相同的静态库和动态库,增加一句。把hello_static输出为hello：
 set_target_properties(hello_static PROPERTIES OUTPUT_NAME "hello")
 # 这样，我们就可以同时得到 libhello.so/libhello.a 两个库了
 
-# 安装共享库和头文件
+# 安装共享库和头文件。其实就是将库文件安装到指定目录，将头文件安装到指定目录/install
 install(TARGETS hello hello_static
 	LIBRARY DESTINATION lib
 	ARCHIVE DESTINATION lib)
-install(FILES ../include/hello.h DESTINATION include/hello)
+install(FILES ../include/hello.h 
+	DESTINATION include/hello)
 # 注意，静态库要使用 ARCHIVE 关键字 通过:
-# cmake -DCMAKE_INSTALL_PREFIX=~/Desktop/SLAM/LearnCMake/CMake6/install ..
+# cmake -DCMAKE_INSTALL_PREFIX=YOUPATH/CMake6_add_library/install ..
 # make
 # make install
-# 我们就可以将头文件和共享库安装到系统目录~/Desktop/SLAM/LearnCMake/CMake6/install/lib 和~/Desktop/SLAM/LearnCMake/CMake6/install/include/hello 中了
+# 我们就可以将头文件和共享库安装到系统指定目录YOUPATH/CMake6_add_library/install/lib 
+# 			和YOUPATH/CMake6_add_library/install/include/hello 中了
+
+# 如果要安装到系统默认目录:
+# cmake ..
+# make
+# sudo make install
