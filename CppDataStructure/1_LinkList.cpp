@@ -74,7 +74,7 @@ public:
         while ((cur != nullptr) && (cur->next != nullptr))
         { // 不是空链表且不是尾部节点
             if (cur->next->val == val)
-            {                                  // 如果下一个节点的值等于目标值，跳过，且删除
+            {                                      // 如果下一个节点的值等于目标值，跳过，且删除
                 LinkListNode<T> *temp = cur->next; //
                 cur->next = cur->next->next;
                 delete temp;
@@ -174,13 +174,19 @@ public:
     // 9 删除第index个节点，注意index是从0开始的
     void deleteAtIndex(int index)
     {
-        if (index > length - 1 || index < 0)
+        if (index > length - 1)
         {
+            std::cout << "index is bigger than length" << std::endl;
             return;
         }
         else if (index == 0)
         {
             deleteAtHead();
+            return;
+        }
+        else if (index < 0)
+        {
+            deleteAtIndex(index + length);
             return;
         }
 
@@ -195,7 +201,24 @@ public:
         length--;
     }
 
-    // 9 打印链表
+    // 10 反转链表
+    void reverseList()
+    {
+        // 定义一个中间链表节点temp，接收cur节点。cur做翻转节点，将next指向pre。
+        LinkListNode<T> *pre = nullptr; // 初始化一个 null指针的节点
+        LinkListNode<T> *cur = head;
+        LinkListNode<T> *temp;
+        while (cur != nullptr)
+        {
+            temp = cur->next;
+            cur->next = pre;
+            pre = cur;
+            cur = temp;
+        }
+        head = pre;
+    }
+
+    // 11 打印链表
     void printLinkListedLinkList()
     {
         std::cout << "LinkList length:" << length << std::endl;
@@ -243,6 +266,10 @@ int main()
     L.addAtIndex(-5, 98);
     L.printLinkListedLinkList();
     L.deleteAtIndex(6);
+    L.printLinkListedLinkList();
+    L.deleteAtIndex(-5);
+    L.printLinkListedLinkList();
+    L.reverseList();
     L.printLinkListedLinkList();
     std::cout << "LinkList index 0:" << L.get(0) << std::endl;
     std::cout << "LinkList index 5:" << L.get(5) << std::endl;
