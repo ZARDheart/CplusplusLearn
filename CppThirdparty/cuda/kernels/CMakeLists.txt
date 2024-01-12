@@ -1,0 +1,6 @@
+enable_language(CUDA)
+
+add_library(kernels kernels.cu kernels.cuh)
+target_compile_features(kernels PUBLIC cxx_std_11)
+set_target_properties(kernels PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+target_link_libraries(kernels ${CUDA_LIBRARIES})
